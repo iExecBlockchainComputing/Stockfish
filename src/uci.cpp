@@ -156,7 +156,8 @@ void UCI::loop(int argc, char* argv[]) {
       cmd += std::string(argv[i]) + " ";
 
   do {
-      if (argc == 1 && !getline(cin, cmd)) // Block here waiting for input or EOF
+	//getline(cin,cmd);
+      if (argc == 1 && !getline(cin,cmd)) // Block here waiting for input or EOF
           cmd = "quit";
 
       istringstream is(cmd);
@@ -173,7 +174,7 @@ void UCI::loop(int argc, char* argv[]) {
           ||  token == "stop"
           || (token == "ponderhit" && Search::Signals.stopOnPonderhit))
       {
-          Search::Signals.stop = true;
+ //         Search::Signals.stop = true;
           Threads.main()->start_searching(true); // Could be sleeping
       }
       else if (token == "ponderhit")
@@ -214,6 +215,7 @@ void UCI::loop(int argc, char* argv[]) {
       else
           sync_cout << "Unknown command: " << cmd << sync_endl;
 
+  //} while (1); // Passed args have one-shot behaviour
   } while (token != "quit" && argc == 1); // Passed args have one-shot behaviour
 
   Threads.main()->wait_for_search_finished();
